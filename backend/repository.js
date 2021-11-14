@@ -1,25 +1,23 @@
+const fs = require('fs')
+const{readFile, writeFile}=require('./fs-utils')
 
 
-
-
-let students = [{name: 'Polina', id: 1},
-    {name: 'Denis', id: 2},
-    {name: 'Oleg', id: 3}]
-
-
-
-const getUser=()=>{
-    return students
+const getUser = () => {
+   return readFile('db')
 }
 
-const addUser=(name)=>{
-    students.push({name: name, id: 100 - students.length})
+const addUser = async (name) => {
+    let users = await getUser()
+    users.push({name: name, id: 100 - users.length})
+    return writeFile('db',users)
 }
 
-const deleteUser=()=>{
-    students.pop()
+const deleteUser = async () => {
+    let users = await getUser()
+    users.pop()
+    return writeFile('db',users)
 }
 
-exports.getUser=getUser;
-exports.addUser=addUser;
-exports.deleteUser=deleteUser;
+exports.getUser = getUser;
+exports.addUser = addUser;
+exports.deleteUser = deleteUser;

@@ -1,6 +1,5 @@
 const http = require('http')
-const {getUser,addUser,deleteUser} =require('./repository')
-
+const {usersController} = require('./usersController')
 
 
 const cors = (req, res) => {
@@ -17,8 +16,6 @@ const cors = (req, res) => {
 }
 
 
-
-
 const server = http.createServer((req, res) => {
     console.log('some request')
 
@@ -28,23 +25,17 @@ const server = http.createServer((req, res) => {
 
     switch (req.url) {
         case'/users':
-            if (req.method === "POST") {
-              addUser('Lesha')
-            } else if (req.method === "DELETE") {
-               deleteUser()
-            } else {
-                res.write(`${JSON.stringify(getUser())}`);
-            }
-            break;
+            usersController(req, res)
+            break
         case '/tasks':
             res.write('tasks')
             break;
         default:
             res.write('page not found')
-            break
+            break;
     }
 
-    res.end()
+
 })
 
 

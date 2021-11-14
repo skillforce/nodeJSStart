@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import axios from 'axios';
 
@@ -12,7 +12,7 @@ const App = () => {
     }
 
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         getUsers()
     }, [])
 
