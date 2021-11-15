@@ -1,42 +1,30 @@
-const http = require('http')
-const {usersController} = require('./usersController')
+const express = require('express')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const users = require('./routes/users')
+const app = express()
+const port = 7542
+
+app.use(cors());
 
 
-const cors = (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET,POST,DELETE');
-    res.setHeader('Access-Control-Allow-Headers', '*');
-    if (req.method === 'OPTIONS') {
-        res.writeHead(200);
-        res.end();
-        return true;
-    }
-    return false
-}
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 
-const server = http.createServer((req, res) => {
-    console.log('some request')
+app.use('/users', users)
 
-    //Set cors header
-    if (cors(req, res)) return;
+app.get('/tasks', (req, res) => {
+    res.send('tasks')
+})
 
-
-    switch (req.url) {
-        case'/users':
-            usersController(req, res)
-            break
-        case '/tasks':
-            res.write('tasks')
-            break;
-        default:
-            res.write('page not found')
-            break;
-    }
-
-
+app.use((req, res) => {
+    res.send(404)
 })
 
 
-server.listen(7542)
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+})
+
+

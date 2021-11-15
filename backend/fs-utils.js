@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 
-const readFile = (filepath)=>{
+exports.readJSONFromFile = (filepath)=>{
     return new Promise((resolve, reject) => {
         fs.readFile(filepath, function (err, buf) {
             if (err) {
@@ -13,7 +13,7 @@ const readFile = (filepath)=>{
     });
 }
 
-const writeFile = (filepath,users)=>{
+exports.writeJSONToFile = (filepath,users)=>{
     return new Promise((res, rej) => {
         fs.writeFile("db", JSON.stringify(users), (err) => {
             if (err) {
@@ -26,5 +26,4 @@ const writeFile = (filepath,users)=>{
 }
 
 
-exports.readFile =readFile;
-exports.writeFile =writeFile;
+
