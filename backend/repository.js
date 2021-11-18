@@ -1,21 +1,29 @@
 const {readJSONFromFile, writeJSONToFile} = require('./fs-utils')
+const mongoose = require("mongoose");
 
 
-const getUser = () => {
-    return readJSONFromFile('db')
+const userSchema = new mongoose.Schema({
+    name: String
+});
+
+const User = mongoose.model('MyUser', userSchema);
+
+
+const getUser = (search) => {
+    return !search ? User.find() : User.find({name: new RegExp(search)})
 }
 
 exports.addUser = async (name) => {
-    let users = await getUser()
-    users.push({name: name, id: 100 - users.length})
-    debugger
-    return writeJSONToFile('db', users)
+    const user = new User({name});
+    return user.save()
 }
 
-exports.deleteUser = async () => {
-    let users = await getUser()
-    users.pop()
-    return writeJSONToFile('db', users)
+exports.updateUser = (id, name) => {
+    return User.update({_id: id}, {name})
+}
+
+exports.deleteUser = async (id) => {
+    return User.deleteOne({_id: id})
 }
 
 exports.getUser = getUser;
