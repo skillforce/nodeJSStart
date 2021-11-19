@@ -13,9 +13,10 @@ const App = () => {
     const [edit, setEdit] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState<string>('')
 
-    const getUsers = () => {
+    const instance = 'https://frozen-brook-01952.herokuapp.com'
 
-        axios.get('http://localhost:7542/users' + window.location.search).then(res =>setUsers(res.data))
+    const getUsers = () => {
+        axios.get(instance +'/users' + window.location.search).then(res =>setUsers(res.data))
         }
 
 
@@ -24,23 +25,23 @@ const App = () => {
     }, [])
 
     const onClickAddUserHandler = () => {
-        axios.post('http://localhost:7542/users', {name: userRef.current?.value}).then(res => getUsers())
+        axios.post(instance+'/users', {name: userRef.current?.value}).then(res => getUsers())
     }
 
     const onClickDeleteUserHandler = (id: string) => {
-        axios.delete(`http://localhost:7542/users/${id}`,).then(res => getUsers())
+        axios.delete(instance+`/users/${id}`,).then(res => getUsers())
     }
     const onChaneInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.currentTarget.value)
     }
     const onClickSaveBtn = (id: string, name: string) => {
-        axios.put('http://localhost:7542/users', {id, name})
+        axios.put(instance+'/users', {id, name})
             .then(res => getUsers())
             .then(res => onChangeEditMade(false))
-    }
+    };
     const onChangeEditMade = (newStatus: boolean) => {
         setEdit(newStatus)
-    }
+    };
 
     return (
         <div>
